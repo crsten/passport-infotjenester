@@ -21,14 +21,15 @@ Before using passport-infotjenester, you must register an application with Infot
 
 ####Configure Strategy
 
-The Infotjenester authentication strategy authenticates users using an Infotjenester account. The client api-key obtained when creating an application is supplied as option when creating the strategy. The strategy also requires a `verify` callback, which receives the `profile` which contains the authenticated user's Infotjenester profile. The `verify` callback must call cb providing a user to complete authentication.
+The Infotjenester authentication strategy authenticates users using an Infotjenester account. The client api-key obtained when creating an application is supplied as option when creating the strategy. The strategy also requires a `verify` callback, which receives the `profile` which contains the authenticated user's Infotjenester profile. The `verify` callback must call cb providing a user to complete authentication. You will also be able to send in a `vendor` to differentiate between the vendors.
 
 ```js
 const ItasStategy = require('passport-infotjenester').Strategy;
 
 passport.use(new ItasStategy({
     clientApiKey: INFOTJENESTER_CLIENT_API_KEY,
-    callbackURL: "http://localhost:3000/auth/infotjenester/callback"
+    callbackURL: "http://localhost:3000/auth/infotjenester/callback",
+    vendor: 2 //this is optional -> defaults to 1
   },
   function(profile, cb) {
     User.findOrCreate({ userId: profile.UserGuid }, function (err, user) {
