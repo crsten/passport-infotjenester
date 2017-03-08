@@ -1,5 +1,5 @@
 # passport-infotjenester
-[![Build Status](https://travis-ci.org/crsten/passport-infotjenester.svg?branch=master&style=flat-square)](https://travis-ci.org/crsten/passport-infotjenester)
+[![Build Status](https://travis-ci.org/itasdesk/passport-infotjenester.svg?branch=master&style=flat-square)](https://travis-ci.org/itasdesk/passport-infotjenester)
 [![npm](https://img.shields.io/npm/dt/passport-infotjenester.svg?style=flat-square)](https://www.npmjs.com/package/passport-infotjenester)
 [![npm](https://img.shields.io/npm/v/passport-infotjenester.svg?style=flat-square)](https://www.npmjs.com/package/passport-infotjenester)
 
@@ -29,9 +29,10 @@ const ItasStategy = require('passport-infotjenester').Strategy;
 passport.use(new ItasStategy({
     clientApiKey: INFOTJENESTER_CLIENT_API_KEY,
     callbackURL: "http://localhost:3000/auth/infotjenester/callback",
+    passReqToCallback: true //this is optional -> defaults to false
     vendor: 2 //this is optional -> defaults to 1
   },
-  function(profile, cb) {
+  function(req /* <-- depends on passReqToCallback */, profile, cb) {
     User.findOrCreate({ userId: profile.UserGuid }, function (err, user) {
       return cb(err, user);
     });
